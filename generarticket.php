@@ -1,7 +1,10 @@
+<meta charset='utf-8'>
 <?php
+setlocale(LC_TIME, 'es_PE.UTF-8');
 require_once("conexion.php");
+include('lib/qrlib.php');
 
-
+        //https://disenowebakus.net/llevando-datos-de-la-base-mysql-a-las-paginas-php.php
         //Obtiene datos de formulario
         $DNI=$nombrec=$mail=$telf=$id_ofi="";
         $DNI =$_POST["dni"]; 
@@ -71,7 +74,7 @@ require_once("conexion.php");
 
 
 
-                  $fecha_cita=strtotime('2020-12-10 09:15:00');
+                  $fecha_cita=date('l jS \of F Y h:i:s A' ,'2020-12-10 09:15:00');
 
 
                          
@@ -108,10 +111,8 @@ require_once("conexion.php");
                  }
 
 
-                  echo "<head>
+                  echo "<head>                  
                   
-                  
-                  <meta charset='utf-8'>
                   <meta http-equiv='X-UA-Compatible' content='IE=edge'>
                   <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no' />
                   <meta name='description' content='Ticket de atencion de 9 am a 1 pm'>
@@ -138,7 +139,8 @@ require_once("conexion.php");
                   <p>Hora de atención : ".$fecha_cita."</p>
 
                   <center><h3>Aturoizado por UGEL</h3></center>
-                  <p>AQUI VA EL CODIGO QR</p>
+                  <p>".QRcode::png('UGEL 2020 :)');."                  
+                  </p>
 
                   <p>Se envio el ticket a su correo con exito!</p>
                   <button onclick='window.print()' class='btn btn-success btn-lg btn-block'>Imprimir ticket</button>
