@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<?php
+
+$ultima_atencion = '2020-12-10 12:45:00';
+
+$startTime = $ultima_atencion;
+
+//echo "hora ultima de atencion: ".$startTime."</br>";
+
+//CREAR FUNCION PARA aumentar cada 15 min   
+$hora_fecha_anterior = explode(" ",$startTime);
+
+//echo $hora_fecha_anterior[1];
+
+if($hora_fecha_anterior[1]>="12:45:00")
+{
+echo "<br>la hora es mayor 12.45</br>";
+
+$endTime0 = strtotime('+1 day', strtotime($startTime));
+$endTime1 = explode(" ",$endTime0);
+$endTime2 = date('Y-m-d',$endTime1[0]);
+$hora = " 09:00:00";
+
+$horacita = $endTime2.$hora;
+//echo "<br>hora cita: ".$horacita;
+
+
+}
+ else
+ {
+ echo "<br>la hora es menor a 12.50";
+$tiempo0 = strtotime('+15 minutes', strtotime($startTime)); 
+$horacita = date('Y-m-d H:i:s', $tiempo0); 
+
+//echo "<br>hora cita: ".$horacita;
+} 
+   
+ /*ticket@ugelcusco.gob.pe
+ugel2020*/
+               
+
+?>
+
+</body>
+</html>

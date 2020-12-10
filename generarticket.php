@@ -1,6 +1,6 @@
 <meta charset='utf-8'>
 <?php
-//date_default_timezone_set("UTC");//Zona horaria de Peru
+date_default_timezone_set("America/Lima");
 require_once("conexion.php");
 
         //Obtiene datos de formulario
@@ -31,69 +31,54 @@ require_once("conexion.php");
              
             //B) sino existe registro de la persona en el dia, agrega a la persona para sacar ticket en un nuevo dia
 
-              //obtener fecha y hora de atencion del ultimo registro              
+              //obtener fecha y hora de atencion del ultimo registro      
+              
+              
               //si la(hora_fecha >= 12:50), coge la fecha de atencion, agrega un dia
               //y pone 9:00 , sino a la ultima fecha_hora + 10 min.
                 $sql0 ="SELECT hora_fecha_atencion FROM ticket_e WHERE ID=(SELECT MAX(ID) FROM ticket_e)";
                 $ultima_atencion_query = $conn->query($sql0);
-               
-                  while($fila = $ultima_atencion_query->fetch_assoc())
+
+                  if ($ultima_atencion_query->num_rows > 0) 
                   {
-                    $ultima_atencion = "'".$fila["hora_fecha_atencion"]."'";
-                    
+                    while($fila = $ultima_atencion_query->fetch_assoc())
+                      {
+                        $ultima_atencion = "'".$fila["hora_fecha_atencion"]."'";                    
+                      }  
                   }
-                  
-                  echo "<script>console.log(".$ultima_atencion.");</script>";
-
-                  $splitTimeStamp = explode(" ", $ultima_atencion);
-                  $hora = $splitTimeStamp[1];
-                 
-                  echo $hora;
-
-                  //CREAR FUNCION PARA aumentar cada 15 min
-                                   
-                  $endTime = strtotime('+15 minutes', strtotime($hora));
-                  $horacita = date('h:i:s', $endTime);    
-                  echo $horacita;                           
-
-                  /*if($endTime>='12:500')
+                  else
                   {
-                    $splitTimeStamp2 = explode(" ", $ultima_atencion);
-                  $fechal = $splitTimeStamp[0];                
+                    //fecha inicial predet- desde el dia q se ponga en funcionamiento.
+                    $ultima_atencion = '2020-12-14 09:00:00';
+                  }
+                          
+                  $startTime = $ultima_atencion;
+                  echo "<script>console.log(". $startTime.");</script>";   
 
-                  $fecha2= strtotime( '+1 day', strtotime($fechal));
-                  $fecha_cita = $fecha2." "."09:00:00";
+                  //CREAR FUNCION PARA aumentar cada 15 min   
+                  $hora_fecha_anterior = explode(" ",$startTime);
+                  
+
+                  if($hora_fecha_anterior[1]>="12:45:00")
+                   {
+                  $endTime0 = strtotime('+1 day', strtotime($startTime));                  
+                  $endTime1 = explode(" ",$endTime0);
+                  $endTime2 = date('Y-m-d',$endTime1[0]);                 
+                  $hora = " 09:00:00";
+                  $horacita = $endTime2.$hora; 
+                  echo "<script>console.log('". $horacita."');</script>";              
 
                   }
                   else
                   {
-                    $fecha_cita = $fechal." ".$endTime;
+                    $tiempo0 = strtotime('+15 minutes', strtotime($startTime)); 
+                    $horacita = date('Y-m-d H:i:s', $tiempo0);                                              
+                    echo "<script>console.log('". $horacita."');</script>";
+                  } 
 
-                    //determinacion de la fecha de cita---------------------------------
-
-                      //$startTime = date("Y-m-d H:i:s");
-                        $startTime = '2020-12-10 09:00:00';
-
-                        //display the starting time
-                        echo '> '.$startTime . "<br>";
-
-                        //adding 10 minutes
-                        $convertedTime = date('Y-m-d H:i:s', strtotime('+1 day', strtotime($startTime)));
-
-                        $convertedTime2 = date('Y-m-d H:i:s', strtotime('+10 minutes', strtotime($convertedTime)));
-
-                        //display the converted time
-                        echo '> '.$convertedTime.'<br>';
-                        echo '> '.$convertedTime2;
-
-
-
-                  }*/
-
-
-
+                   
                   //$fecha_cita=date('l jS \of F Y h:i:s A' ,'2020-12-10 09:15:00');
-                  $fecha_cita=date('Y-m-d H:i:s' ,'2020-12-10 09:15:00');
+                  $fecha_cita=$horacita;
 
                          
               $sql = "INSERT INTO ticket_e (DNI_person, nombre_persona, mail, telf,fecha,id_ofi,hora_fecha_atencion)
@@ -163,10 +148,10 @@ require_once("conexion.php");
 
                    
        
-                   echo " <input id='qrtext' type='hidden' value='".$ID_ticket."F6B59C44B3E79DB40DA02455B3A54A5CB82D47102E3CCD8394C4E92D944770EA"."$id_ofi"."' />
-                   <center><div id='qrcode'></div></center>";
+                   echo "<div> <input id='qrtext' type='hidden' value='".$ID_ticket."F6B59C44B3E79DB40DA02455B3A54A5CB82D47102E3CCD8394C4E92D944770EA"."$id_ofi"."' />
+                   <center><div id='qrcode'></div></center></div>";
 
-                   
+                   echo "</br>";
 
                    //Enviar a mail
 /*
