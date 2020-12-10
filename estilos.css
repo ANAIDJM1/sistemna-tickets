@@ -7,6 +7,15 @@
     margin-left: auto;
 
 }
+
+#qrcode {
+	width:60px;
+	height:60px;
+	margin:15px;
+  }
+
+
+
 .form-style-5{
 	max-width: 500px;
 	padding: 10px 20px;
