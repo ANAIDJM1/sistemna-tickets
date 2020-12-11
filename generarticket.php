@@ -1,6 +1,4 @@
-<meta charset='utf-8'>
 <?php
-date_default_timezone_set("America/Lima");
 require_once("conexion.php");
 
         //Obtiene datos de formulario
@@ -27,58 +25,54 @@ require_once("conexion.php");
             }
             else
             {
-              //335 tickets x dia - + informe por oficina de atencion
-             
-            //B) sino existe registro de la persona en el dia, agrega a la persona para sacar ticket en un nuevo dia
-
-              //obtener fecha y hora de atencion del ultimo registro      
-              
-              
-              //si la(hora_fecha >= 12:50), coge la fecha de atencion, agrega un dia
-              //y pone 9:00 , sino a la ultima fecha_hora + 10 min.
-                $sql0 ="SELECT hora_fecha_atencion FROM ticket_e WHERE ID=(SELECT MAX(ID) FROM ticket_e)";
-                $ultima_atencion_query = $conn->query($sql0);
+              //APTO------------------------------------------------------PARA SACAR TICKET-------------------------------------------------------------------------
+                $sql0 ="SELECT hora_fecha_atencion,id_ofi FROM ticket_e WHERE ID=(SELECT MAX(ID) FROM ticket_e WHERE id_ofi=$id_ofi)";
+                 $ultima_atencion_query = $conn->query($sql0);
 
                   if ($ultima_atencion_query->num_rows > 0) 
                   {
                     while($fila = $ultima_atencion_query->fetch_assoc())
                       {
-                        $ultima_atencion = "'".$fila["hora_fecha_atencion"]."'";                    
+                        $ultima_atencion = $fila["hora_fecha_atencion"];                                        
                       }  
                   }
                   else
                   {
                     //fecha inicial predet- desde el dia q se ponga en funcionamiento.
-                    $ultima_atencion = '2020-12-14 09:00:00';
+                    $ultima_atencion = '2020-12-13 09:00:00';
                   }
-                          
-                  $startTime = $ultima_atencion;
-                  echo "<script>console.log(". $startTime.");</script>";   
 
-                  //CREAR FUNCION PARA aumentar cada 15 min   
-                  $hora_fecha_anterior = explode(" ",$startTime);
-                  
-
-                  if($hora_fecha_anterior[1]>="12:45:00")
-                   {
-                  $endTime0 = strtotime('+1 day', strtotime($startTime));                  
-                  $endTime1 = explode(" ",$endTime0);
-                  $endTime2 = date('Y-m-d',$endTime1[0]);                 
-                  $hora = " 09:00:00";
-                  $horacita = $endTime2.$hora; 
-                  echo "<script>console.log('". $horacita."');</script>";              
-
-                  }
-                  else
+                  function retornafecha($fecha_inicial)
                   {
-                    $tiempo0 = strtotime('+15 minutes', strtotime($startTime)); 
-                    $horacita = date('Y-m-d H:i:s', $tiempo0);                                              
-                    echo "<script>console.log('". $horacita."');</script>";
-                  } 
+                        $startTime = $fecha_inicial;
+                      echo "<script>console.log(". $startTime.");</script>";   
 
-                   
-                  //$fecha_cita=date('l jS \of F Y h:i:s A' ,'2020-12-10 09:15:00');
-                  $fecha_cita=$horacita;
+                      //CREAR FUNCION PARA aumentar cada 15 min   
+                      $hora_fecha_anterior = explode(" ",$startTime);
+                      
+
+                      if($hora_fecha_anterior[1]>="12:45:00")
+                      {
+                      $endTime0 = strtotime('+1 day', strtotime($startTime));                  
+                      $endTime1 = explode(" ",$endTime0);
+                      $endTime2 = date('Y-m-d',$endTime1[0]);                 
+                      $hora = " 09:00:00";
+                      $horacita = $endTime2.$hora; 
+                      echo "<script>console.log('". $horacita."');</script>"; 
+                      return $horacita;             
+
+                      }
+                      else
+                      {
+                        $tiempo0 = strtotime('+15 minutes', strtotime($startTime)); 
+                        $horacita = date('Y-m-d H:i:s', $tiempo0);                                              
+                        echo "<script>console.log('". $horacita."');</script>";
+                        return $horacita;   
+                      }
+
+                  }
+
+                  $fecha_cita=retornafecha($ultima_atencion);
 
                          
               $sql = "INSERT INTO ticket_e (DNI_person, nombre_persona, mail, telf,fecha,id_ofi,hora_fecha_atencion)
@@ -114,87 +108,77 @@ require_once("conexion.php");
                  }
 
 
-                  echo "<head>                  
-                  
-                  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+                  echo "<head>
+                  <meta http-equiv='Content-Type' content='text/html; charset=utf-8'>    
+
                   <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no' />
                   <meta name='description' content='Ticket de atencion de 9 am a 1 pm'>
                   <meta name='Keywords' content='ticket de atencion UGEL - Cusco, UGEL'/>
                   <meta name='author' content='UGEL CUSCO - area de Informatica /Aniad J.M.'>
               
-                  <title>Ticket Generado- UGEL CUSCO</title>             
-                  
-                  <link href='http://www.ugelcusco.gob.pe/miboleta/vendor/bootstrap/css/bootstrap.min.css' rel='stylesheet'>
+                  <title>Ticket Generado- UGEL CUSCO</title>    
+                  <link rel='icon' href='favicon.ico'> 
                   <link href='estilos.css' rel='stylesheet'>              
                    <script src='funciones.js'></script>
-                   <script src='qr.js'></script>
-                   <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+                   <script src='qr.js'></script>                  
+                  
 
                   <head>
                   <body>
                   <center>
-                  <h1>Ticket Electronico - UGEL CUSCO 2020 </h1></center>  
-                  <div class='impresion'>
-                  <p>Nro ticket:" .$ID_ticket."</p>
-                  <p>para el Sr. /Sra. : ".$nombrec." </p>
-
-                 
-
-                  <p>Area de Atención : ".$oficinaa."</p>
-                  <p>Hora de atención : ".$fecha_cita."</p>
-
-                  <center><h3>Autorizado por UGEL</h3></center>
-                  <p>";
-
-                   
+                  <div id='eltikett'>
+                    <h1>Ticket Electronico - UGEL CUSCO 2020 </h1></center>  
+                    <div class='impresion'>
+                      <p>Nro ticket:" .$ID_ticket."</p>
+                      <p>para el Sr. /Sra. : ".$nombrec." </p>
+                      <p>Area de Atención : ".$oficinaa."</p>
+                      <p>Hora de atención : ".$fecha_cita."</p>
+                      <center><h3>Autorizado por UGEL</h3></center>
+                      <p>";                   
        
-                   echo "<div> <input id='qrtext' type='hidden' value='".$ID_ticket."F6B59C44B3E79DB40DA02455B3A54A5CB82D47102E3CCD8394C4E92D944770EA"."$id_ofi"."' />
-                   <center><div id='qrcode'></div></center></div>";
+                   echo "<div> 
+                    <input id='qrtext' type='hidden' value='".$ID_ticket."F6B59C44B3E79DB40DA02455B3A54A5CB82D47102E3CCD8394C4E92D944770EA"."$id_ofi"."' />
+                      <center><div id='qrcode'></div></center>
+                        </div></div>";
 
                    echo "</br>";
 
-                   //Enviar a mail
-/*
-$to = .$mail.;
-$subject = "UGEL CUSCO - Ticket de atencion";
+//-------------------------Enviar a mail
+$to = $mail;
 
-$att = file_get_contents( 'generated.pdf' );
-$att = base64_encode( $att );
-$att = chunk_split( $att );
+$subject = 'Ticket - UGEL';
 
-$BOUNDARY="anystring";
+$headers =  'MIME-Version: 1.0' . "\r\n"; 
+$headers .= 'From: UGEL CUSCO <ticket@ugelcusco.gob.pe>' . "\r\n";
+$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n"; 
 
-$headers =<<<END
-From: Your Name <abc@gmail.com>
-Content-Type: multipart/mixed; boundary=$BOUNDARY
-END;
+$message = '<html><body>';
 
-$body =<<<END
---$BOUNDARY
-Content-Type: text/plain
+$message .= '<h1>Ticket Electronico - UGEL CUSCO 2020 </h1>';
+$message .= "<p>Nro ticket:" .strip_tags($ID_ticket)."</p>";
+$message .= "<p>para el Sr. /Sra. : ".strip_tags($nombrec)." </p>";
+$message .= "<p>Area de Atención : ".strip_tags($oficinaa)."</p>";
+$message .= "<p>Hora de atención : ".strip_tags($fecha_cita)."</p>";
+$message .= '<center><h3>Autorizado por UGEL</h3></center>';
+$message .= "<p> Codigo de autenticación: ".strip_tags($ID_ticket)."F6B59C44B3E79DB40DA02455B3A54A5CB82D47102E3CCD8394C4E92D944770EA".strip_tags($id_ofi)."<p/>";
+$message .= "<center><div id='qrcode'></div></center>";
 
-See attached file!
 
---$BOUNDARY
-Content-Type: application/pdf
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="your-file.pdf"
 
-$att
---$BOUNDARY--
-END;
+if(mail($to, $subject, $message, $headers)){
+  echo 'Su mail se envio correctamente';
+} else{
+  echo 'No se pudo enviar el mail..';
+}
 
-mail( $to, $subject, $body, $headers );
 
-                  echo "<p>Se envio el ticket a su correo!</p>"; 
 
-*/
 
 //------------------------------------------------------------------------
 
                   
                    echo "     
-                  <button onclick='window.print()' class='btn btn-success btn-lg btn-block'>Imprimir ticket</button>
+                  <button onclick='window.print()' class='btn-success'>Imprimir ticket</button>
                   </div>
 
 
@@ -236,6 +220,6 @@ mail( $to, $subject, $body, $headers );
 
 
         $conn->close();
-        //https://disenowebakus.net/llevando-datos-de-la-base-mysql-a-las-paginas-php.php
+      
        
 ?>

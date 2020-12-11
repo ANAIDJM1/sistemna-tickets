@@ -1,29 +1,20 @@
-
 <!DOCTYPE html>
 <html lang="es">
 
 <head>
-
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">    
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta name="description" content="Ticket de atencion de 9 am a 1 pm">
     <meta name="Keywords" content="ticket de atencion UGEL - Cusco, UGEL"/>
     <meta name="author" content="UGEL CUSCO - area de Informatica /Aniad J.M.">
 
     <title>MiTicket - UGEL CUSCO</title>
-
-    
-    <!-- Bootstrap Core CSS -->
-    <link href="http://www.ugelcusco.gob.pe/miboleta/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" href="favicon.ico">    
+  
     <link href="estilos.css" rel="stylesheet">
      <!-- Js -->
      <script src="funciones.js"></script>
     
-
-    <!-- Custom Fonts 
-    <link href="http://www.ugelcusco.gob.pe/miboleta/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    -->
 
 </head>
 
@@ -86,7 +77,7 @@
 
                     </fieldset> 
 
-                    <button type="submit" class="btn btn-success btn-lg btn-block">Generar Ticket de atención</button>                 
+                    <button type="submit" class="btn-success">Generar Ticket de atención</button>                 
                     </form>
             </div>
     </div>

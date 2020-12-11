@@ -1,3 +1,9 @@
+body,
+footer{
+	max-width: 800px;
+	margin-right: auto;
+	margin-left: auto;
+}
 .impresion
 {
 	margin-right: auto;
@@ -116,4 +122,18 @@
 .form-style-5 input[type="button"]:hover
 {
 	background: #109177;
+}
+.btn-success
+{
+	border-radius: 5px;
+	background-color: #4CAF50; /* Green */
+	border: none;
+	color: white;
+	padding: 15px 32px;
+	text-align: center;
+	text-decoration: none;
+	display: flex;
+	font-size: 16px;	
+	margin-left: auto;
+	margin-right: auto;
 }
