@@ -39,7 +39,24 @@ $horacita = date('Y-m-d H:i:s', $tiempo0);
 } 
    
  /*ticket@ugelcusco.gob.pe
-ugel2020*/
+ugel2020
+
+BD: ticketera
+user: ticketera
+pass: TuWYSnShXdcKQBdC
+UG2020
+
+
+ticket@ugelcusco.gob.pe
+ugel2020
+
++51 084 585921
+
+ticket/login
+
+200.37.189.38
+
+*/
                
 
 ?>

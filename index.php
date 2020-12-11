@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta name="description" content="Ticket de atencion de 9 am a 1 pm">
     <meta name="Keywords" content="ticket de atencion UGEL - Cusco, UGEL"/>
-    <meta name="author" content="UGEL CUSCO - area de Informatica /Aniad J.M.">
+    <meta name="author" content="UGEL CUSCO - area de Informatica /Aniad Jimenez Moreano.">
 
     <title>MiTicket - UGEL CUSCO</title>
     <link rel="icon" href="favicon.ico">    
@@ -46,7 +46,7 @@
 
                     ?>
                     </span> Ticket de Atención - UGEL Cusco</legend>
-                    <label for="nombre">Nombre:</label>
+                    <label for="nombre">Nombre completo:</label>
                     <input type="text" name="nombre" placeholder="Ingrese su nombre" required>
                     <label for="email">Email:</label>
                     <input type="email" name="email" placeholder="Ingrese su Email *" required>                 

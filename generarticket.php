@@ -166,7 +166,7 @@ $message .= "<center><div id='qrcode'></div></center>";
 
 
 if(mail($to, $subject, $message, $headers)){
-  echo 'Su mail se envio correctamente';
+  echo 'Su ticke se envio correctamente a su correo';
 } else{
   echo 'No se pudo enviar el mail..';
 }
